@@ -2,7 +2,7 @@
 ========
 * Author  : [Hom](https://github.com/Hom-Wang)
 * Version : v1.0
-* Update  : 2014/11/15
+* Update  : 2014/11/16
 
 Description
 ========
@@ -26,9 +26,8 @@ Hardware
 Software
 ========
 * 開發環境 Keil uVision v5.12
-* LAB_RNR_74HC164 ... 74HC164 測試
-* LAB_RNR_74HC595 ... 74HC595 測試
-* LAB_RNR_ADC ... ADC 轉換, 並傳資料至 PC
+* BSM_TestGPIO ... GPIO 輸入輸出範例
+* BSM_TestUART ... UART 傳輸範例，PC 端使用 Putty
 
 Related Documents
 ========
