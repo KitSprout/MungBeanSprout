@@ -365,7 +365,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F0XX,</Define>
               <Undefine></Undefine>
-              <IncludePath>..\;..\Libraries\STM32F0xx_StdPeriph_Driver\inc;..\Libraries\STM32F0xx_StdPeriph_Driver\src;..\Program;..\Program\Dirvers;..\Program\Modules</IncludePath>
+              <IncludePath>..\;..\Libraries\STM32F0xx_StdPeriph_Driver\inc;..\Libraries\STM32F0xx_StdPeriph_Driver\src;..\Program;..\Program\Dirvers;..\Program\Modules;..\Program\Algorithms</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -444,6 +444,12 @@
               <FilePath>..\Program\experiment_stm32f0.c</FilePath>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>Module</GroupName>
+        </Group>
+        <Group>
+          <GroupName>Algorithms</GroupName>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>
