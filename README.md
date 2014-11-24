@@ -47,6 +47,8 @@ View
 
 Config
 ========
+<img src="https://lh4.googleusercontent.com/-wGYIDgoioXk/VHLSwlL3PaI/AAAAAAAALYc/_CMvftVr67A/s1600/Config_2.png" />
+<img src="https://lh4.googleusercontent.com/-3KsPbPbc0GA/VHLSwltHYBI/AAAAAAAALYY/uF6fmXXzD_c/s1600/Config_1.png" />
 
 Schematic
 ========
