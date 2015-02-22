@@ -20,8 +20,6 @@ int main( void )
   uint8_t State = 0;
   uint32_t i = PWM_MOTOR_MIN;
 
-  SystemInit();
-  GPIO_Config();
   PWM_Config();
 
   while(1) {
@@ -38,31 +36,6 @@ int main( void )
 
     Delay_1ms(1);
   }
-}
-/*=====================================================================================================*/
-/*=====================================================================================================*/
-void GPIO_Config( void )
-{
-  GPIO_InitTypeDef GPIO_InitStruct;
-
-  /* GPIO Clk Init *************************************************************/
-  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
-  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
-
-  GPIO_InitStruct.GPIO_Pin = GPIO_Pin_0  | GPIO_Pin_1  | GPIO_Pin_2  | GPIO_Pin_3  | GPIO_Pin_4  |
-                             GPIO_Pin_5  | GPIO_Pin_6  | GPIO_Pin_7  | GPIO_Pin_9  | GPIO_Pin_10;
-  GPIO_InitStruct.GPIO_Mode = GPIO_Mode_OUT;
-  GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
-  GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_NOPULL;
-  GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  GPIO_InitStruct.GPIO_Pin = GPIO_Pin_1;
-  GPIO_InitStruct.GPIO_Mode = GPIO_Mode_OUT;
-  GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
-  GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_NOPULL;
-  GPIO_Init(GPIOB, &GPIO_InitStruct);
 }
 /*=====================================================================================================*/
 /*=====================================================================================================*/
@@ -100,8 +73,8 @@ void PWM_Config( void )
 
   /************************** PWM Output **************************************/
   /* TIM1 Time Base */
-  TIM_TimeBaseStruct.TIM_Period = (uint16_t)(2500-1);         // Period = 2.5ms => Freq = 400Hz
-  TIM_TimeBaseStruct.TIM_Prescaler = (uint16_t)(48-1);        // fCK_PSC = APB1*2 = 42*2 = 84, fCK_PSC /84 = 1M ( 1us )
+  TIM_TimeBaseStruct.TIM_Period = (uint16_t)(2500-1);
+  TIM_TimeBaseStruct.TIM_Prescaler = (uint16_t)(48-1);
   TIM_TimeBaseStruct.TIM_ClockDivision = TIM_CKD_DIV1;
   TIM_TimeBaseStruct.TIM_CounterMode = TIM_CounterMode_Up;    // Count Up
   TIM_TimeBaseStruct.TIM_RepetitionCounter = 0;
