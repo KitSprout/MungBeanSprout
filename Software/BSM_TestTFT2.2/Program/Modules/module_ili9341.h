@@ -26,31 +26,30 @@
 // 輸入 R G B，輸出 RGB565
 #define RGB(C_R, C_G, C_B)  ((uint32_t)(((C_R<<8)&0xF800)|((C_G<<3)&0x07E0)|((C_B>>3)&0x001F)))
 
-#define RED         ((uint16_t)0xF800) /* 紅色 */
-#define GREEN       ((uint16_t)0x07E0) /* 綠色 */
-#define BLUE        ((uint16_t)0x001F) /* 藍色 */
-#define MAGENTA     ((uint16_t)0xF81F) /* 紅紫色，洋紅色 */
+#define RED         ((uint16_t)0xF800)  /* 紅色 */
+#define GREEN       ((uint16_t)0x07E0)  /* 綠色 */
+#define BLUE        ((uint16_t)0x001F)  /* 藍色 */
+#define MAGENTA     ((uint16_t)0xF81F)  /* 紅紫色，洋紅色 */
 #define GRED        ((uint16_t)0xFFE0)
 #define GBLUE       ((uint16_t)0x07FF) 
 #define BRED        ((uint16_t)0XF81F)
-#define BROWN       ((uint16_t)0xBC40) /* 棕色 */
-#define BRRED       ((uint16_t)0xFC07) /* 棕紅色 */
-#define CYAN        ((uint16_t)0x7FFF)	/* 藍綠色，青色 */
-#define BLACK       ((uint16_t)0x0000) /* 黑色 */
-#define GRAY        ((uint16_t)0X8430) /* 灰色 */
-#define WHITE       ((uint16_t)0xFFFF) /* 白色 */
-#define YELLOW      ((uint16_t)0xFFE0) /* 黃色 */
-#define DARKBLUE    ((uint16_t)0x01CF)	/* 深藍色 */
-#define LIGHTBLUE   ((uint16_t)0x7D7C)	/* 淺藍色 */
-#define GRAYBLUE    ((uint16_t)0x5458) /* 灰藍色 */
-#define LIGHTGREEN  ((uint16_t)0X841F) /* 淺綠色 */
-#define LGRAY       ((uint16_t)0XC618) /* 淺灰色 */
-#define LGRAYBLUE   ((uint16_t)0XA651) /* 淺灰藍色 */
-#define LBBLUE      ((uint16_t)0X2B12) /* 淺棕藍色 */
+#define BROWN       ((uint16_t)0xBC40)  /* 棕色 */
+#define BRRED       ((uint16_t)0xFC07)  /* 棕紅色 */
+#define CYAN        ((uint16_t)0x7FFF)  /* 藍綠色，青色 */
+#define BLACK       ((uint16_t)0x0000)  /* 黑色 */
+#define GRAY        ((uint16_t)0X8430)  /* 灰色 */
+#define WHITE       ((uint16_t)0xFFFF)  /* 白色 */
+#define YELLOW      ((uint16_t)0xFFE0)  /* 黃色 */
+#define DARKBLUE    ((uint16_t)0x01CF)  /* 深藍色 */
+#define LIGHTBLUE   ((uint16_t)0x7D7C)  /* 淺藍色 */
+#define GRAYBLUE    ((uint16_t)0x5458)  /* 灰藍色 */
+#define LIGHTGREEN  ((uint16_t)0X841F)  /* 淺綠色 */
+#define LGRAY       ((uint16_t)0XC618)  /* 淺灰色 */
+#define LGRAYBLUE   ((uint16_t)0XA651)  /* 淺灰藍色 */
+#define LBBLUE      ((uint16_t)0X2B12)  /* 淺棕藍色 */
 /*====================================================================================================*/
 /*====================================================================================================*/
 void ILI9341_Config( void );
-void ILI9341_LigConfig( void );
 void ILI9341_Init( void );
 
 void LCD_Clear( uint16_t Color );
@@ -66,7 +65,7 @@ void LCD_DrawRectangleFill( uint16_t CoordiX, uint16_t CoordiY, uint16_t Width, 
 void LCD_DrawCircle( uint16_t CoordiX, uint16_t CoordiY, uint16_t Radius, uint16_t Color );
 void LCD_DrawPicture( uint16_t CoordiX, uint16_t CoordiY, uint16_t Width, uint16_t Height, const uint8_t *Pic );
 
-void LCD_PutChar( uint16_t CoordiX, uint16_t CoordiY, int8_t* ChWord, uint16_t FontColor, uint16_t BackColor );
+void LCD_PutChar( uint16_t CoordiX, uint16_t CoordiY, int8_t *ChWord, uint16_t FontColor, uint16_t BackColor );
 void LCD_PutStr( uint16_t CoordiX, uint16_t CoordiY, int8_t *ChWord, uint16_t FontColor, uint16_t BackColor );
 void LCD_PutNum( uint16_t CoordiX, uint16_t CoordiY, StrType Type, uint8_t Length, uint32_t NumData, uint16_t FontColor, uint16_t BackColor );
 

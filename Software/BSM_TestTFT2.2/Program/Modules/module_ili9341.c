@@ -14,9 +14,10 @@
 #define LCD_LIG_GPIO_PORT   GPIOB
 #define LCD_LIG_GPIO_CLK    RCC_AHBPeriph_GPIOB
 
-//#define BLIGHT_PWM
+#define BLIGHT_PWM
 #ifdef BLIGHT_PWM
-  #define LCD_LIG   TIM2->CCR2
+  #define LCD_LIG_TIMx    TIM3
+  #define LCD_LIG         LCD_LIG_TIMx->CCR4
   #define BLIGHT_MAX      255
   #define BLIGHT_MIN      0
   #define BLIGHT_DEFAULT  200
@@ -63,6 +64,12 @@
 #define LCD_SDI_GPIO_CLK    RCC_AHBPeriph_GPIOA
 #define LCD_SDI_SOURCE      GPIO_PinSource7
 #define LCD_SDI_AF          GPIO_AF_0
+/*====================================================================================================*/
+/*====================================================================================================*/
+static void ILI9341_LigConfig( void );
+static void LCD_WriteCmd( uint8_t WriteCmd );
+static void LCD_WriteData( uint16_t WriteData );
+static void LCD_WriteColor( uint16_t Color );
 /*====================================================================================================*/
 /*====================================================================================================*
 **函數 : ILI9341_Config
@@ -156,48 +163,54 @@ void ILI9341_Config( void )
 **使用 : ILI9341_LigConfig();
 **====================================================================================================*/
 /*====================================================================================================*/
-void ILI9341_LigConfig( void )
+static void ILI9341_LigConfig( void )
 {
   GPIO_InitTypeDef GPIO_InitStruct;
 
 #ifdef BLIGHT_PWM
+  /* PWM Clk Init *************************************************************/
+  TIM_TimeBaseInitTypeDef TIM_TimeBaseStruct;
+  TIM_OCInitTypeDef TIM_OCInitStruct;
 
-//  /* PWM Clk Init *************************************************************/
-//  TIM_TimeBaseInitTypeDef TIM_TimeBaseStruct;
-//  TIM_OCInitTypeDef TIM_OCInitStruct;
+  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
 
-//  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
-//  RCC_APB2PeriphClockCmd(LCD_LIG_GPIO_CLK, ENABLE);
+  GPIO_PinAFConfig(GPIOB, GPIO_PinSource1, GPIO_AF_1); // TIM3 CH4
 
-//  /* LIG PA6  */
-//  GPIO_InitStruct.GPIO_Pin = LCD_LIG_PIN;
-//  GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-//  GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;
-//  GPIO_Init(LCD_LIG_GPIO_PORT, &GPIO_InitStruct);
+  /* LIG PB1  */
+  GPIO_InitStruct.GPIO_Pin = GPIO_Pin_1;
+  GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF;
+  GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+  GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
+  GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP ;
+  GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-//  TIM_DeInit(TIM2);
+  /************************** PWM Output **************************************/
+  /* TIM1 Time Base */
+  TIM_TimeBaseStruct.TIM_Period = (uint16_t)(256-1);
+  TIM_TimeBaseStruct.TIM_Prescaler = (uint16_t)(0);
+  TIM_TimeBaseStruct.TIM_ClockDivision = TIM_CKD_DIV1;
+  TIM_TimeBaseStruct.TIM_CounterMode = TIM_CounterMode_Up;  // Count Up
+  TIM_TimeBaseStruct.TIM_RepetitionCounter = 0;
+  TIM_TimeBaseInit(LCD_LIG_TIMx, &TIM_TimeBaseStruct);
 
-//  /************************** PWM Output **************************************/
-//  /* 設定 TIM2 Time Base */
-//  TIM_TimeBaseStruct.TIM_Period = (uint16_t)(256-1);               // Set Period
-//  TIM_TimeBaseStruct.TIM_Prescaler = (uint16_t)(0);                // Freq = APB1 36MHz / 1 = 36MHz
-//  TIM_TimeBaseStruct.TIM_ClockDivision = TIM_CKD_DIV1;
-//  TIM_TimeBaseStruct.TIM_CounterMode = TIM_CounterMode_Up;    // Count Up
-//  TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStruct);
+  TIM_OCInitStruct.TIM_OCMode = TIM_OCMode_PWM1;
+  TIM_OCInitStruct.TIM_OutputState = TIM_OutputState_Enable;
+  TIM_OCInitStruct.TIM_OutputNState = TIM_OutputNState_Enable;
+  TIM_OCInitStruct.TIM_OCPolarity = TIM_OCPolarity_Low;
+  TIM_OCInitStruct.TIM_OCNPolarity = TIM_OCNPolarity_High;
+  TIM_OCInitStruct.TIM_OCIdleState = TIM_OCIdleState_Set;
+  TIM_OCInitStruct.TIM_OCNIdleState = TIM_OCIdleState_Reset;
+  TIM_OCInitStruct.TIM_Pulse = BLIGHT_MIN;
+  TIM_OC4Init(LCD_LIG_TIMx, &TIM_OCInitStruct);
 
-//  /* 設定 TIM2 OC2 */
-//  TIM_OCInitStruct.TIM_OCMode = TIM_OCMode_PWM1;              // PWM1 Mode
-//  TIM_OCInitStruct.TIM_OutputState = TIM_OutputState_Enable;  // Enable OC
-//  TIM_OCInitStruct.TIM_Pulse = 0;                             // Period Pulse
-//  TIM_OCInitStruct.TIM_OCPolarity = TIM_OCPolarity_High;      // 當計數值小於 PWM_MOTOR_MIN 時為高電平
-//  TIM_OC2Init(TIM2, &TIM_OCInitStruct);                       // 初始化 TIM3 OC1
-//  TIM_OC2PreloadConfig(TIM2, TIM_OCPreload_Enable);           // Enable TIM3 OC1 Preload
+  TIM_OC4PreloadConfig(LCD_LIG_TIMx, TIM_OCPreload_Enable);
+  TIM_ARRPreloadConfig(LCD_LIG_TIMx, ENABLE);
 
-//  /* 啟動 */
-//  TIM_ARRPreloadConfig(TIM2, ENABLE);                         // Enable TIM3 ARR Preload
-//  TIM_Cmd(TIM2, ENABLE);                                      // Enable TIM3
+  TIM_Cmd(LCD_LIG_TIMx, ENABLE);
+  TIM_CtrlPWMOutputs(LCD_LIG_TIMx, ENABLE);
 
-//    LCD_LIG = BLIGHT_MIN;
+  LCD_LIG = BLIGHT_MIN;
 
 #else
   /* GPIO Clk Init ************************************************************/
@@ -275,10 +288,10 @@ static void LCD_WriteColor( uint16_t Color )
 void ILI9341_Init( void )
 {
   // Reset
-	LCD_RST_L;
-	Delay_1ms(100);
-	LCD_RST_H;
-	Delay_1ms(50);
+  LCD_RST_L;
+  Delay_100ms(1);
+  LCD_RST_H;
+  Delay_10ms(5);
 
   LCD_WriteCmd(0xCB);
   LCD_WriteData(0x39);
@@ -389,7 +402,6 @@ void ILI9341_Init( void )
   LCD_WriteCmd(0x2C);
 
   LCD_Clear(BLACK);
-
   LCD_SetBackLight(BLIGHT_DEFAULT);
 }
 /*====================================================================================================*/
@@ -403,12 +415,12 @@ void ILI9341_Init( void )
 /*====================================================================================================*/
 void LCD_Clear( uint16_t Color )
 {
-  uint32_t Point = LCD_W*LCD_H;
+  uint32_t Point = LCD_W * LCD_H;
 
   LCD_SetWindow(0, 0, LCD_W-1, LCD_H-1);
 
-	while(Point--)
-		LCD_WriteColor(Color);
+  while(Point--)
+    LCD_WriteColor(Color);
 }
 /*====================================================================================================*/
 /*====================================================================================================*
@@ -421,13 +433,13 @@ void LCD_Clear( uint16_t Color )
 /*====================================================================================================*/
 void LCD_SetCursor( uint16_t CoordiX, uint16_t CoordiY )
 {
-	LCD_WriteCmd(0x2A);
+  LCD_WriteCmd(0x2A);
   LCD_WriteData(Byte8H(CoordiX));
-	LCD_WriteData(Byte8L(CoordiX));
-	LCD_WriteCmd(0x2B);
+  LCD_WriteData(Byte8L(CoordiX));
+  LCD_WriteCmd(0x2B);
   LCD_WriteData(Byte8H(CoordiY));
-	LCD_WriteData(Byte8L(CoordiY));
-	LCD_WriteCmd(0x2C);
+  LCD_WriteData(Byte8L(CoordiY));
+  LCD_WriteCmd(0x2C);
 }
 /*====================================================================================================*/
 /*====================================================================================================*
@@ -440,17 +452,17 @@ void LCD_SetCursor( uint16_t CoordiX, uint16_t CoordiY )
 /*====================================================================================================*/
 void LCD_SetWindow( uint16_t StartX, uint16_t StartY, uint16_t EndX, uint16_t EndY )
 {
-	LCD_WriteCmd(0x2A);
+  LCD_WriteCmd(0x2A);
   LCD_WriteData(Byte8H(StartX));
-	LCD_WriteData(Byte8L(StartX));
+  LCD_WriteData(Byte8L(StartX));
   LCD_WriteData(Byte8H(EndX));
-	LCD_WriteData(Byte8L(EndX));
-	LCD_WriteCmd(0x2B);
+  LCD_WriteData(Byte8L(EndX));
+  LCD_WriteCmd(0x2B);
   LCD_WriteData(Byte8H(StartY));
-	LCD_WriteData(Byte8L(StartY));
+  LCD_WriteData(Byte8L(StartY));
   LCD_WriteData(Byte8H(EndY));
-	LCD_WriteData(Byte8L(EndY));
-	LCD_WriteCmd(0x2C);
+  LCD_WriteData(Byte8L(EndY));
+  LCD_WriteCmd(0x2C);
 }
 /*====================================================================================================*/
 /*====================================================================================================*
@@ -464,18 +476,13 @@ void LCD_SetWindow( uint16_t StartX, uint16_t StartY, uint16_t EndX, uint16_t En
 void LCD_SetBackLight( uint16_t BackLight )
 {
 #ifdef BLIGHT_PWM
-	if(BackLight <= 0)
-    LCD_LIG = BLIGHT_MIN;
-	else if (BackLight >= BLIGHT_MAX)
-    LCD_LIG = BLIGHT_MAX;
-  else
-    LCD_LIG = BackLight;
+  if(BackLight <= 0)                LCD_LIG = BLIGHT_MIN;
+  else if(BackLight >= BLIGHT_MAX)  LCD_LIG = BLIGHT_MAX;
+  else                              LCD_LIG = BackLight;
 
 #else
-	if(BackLight == 0)
-    LCD_LIG_L;
-  else
-    LCD_LIG_H;
+  if(BackLight == 0)  LCD_LIG_L;
+  else                LCD_LIG_H;
 
 #endif
 }
@@ -499,15 +506,15 @@ void LCD_DrawPixel( uint16_t CoordiX, uint16_t CoordiY, uint16_t Color )
 **功能 : Draw X-Axis Line
 **輸入 : CoordiX, CoordiY, Length, Color
 **輸出 : None
-**使用 : LCD_DrawLine(CoordiX, CoordiY, Length, Color);
+**使用 : LCD_DrawLine(CoordiX, CoordiY, Length, Color)
 **====================================================================================================*/
 /*====================================================================================================*/
 void LCD_DrawLineX( uint16_t CoordiX, uint16_t CoordiY, uint16_t Length, uint16_t Color )
 {
-	uint16_t i;
+  uint16_t i;
 
-	for(i=0; i<Length; i++)
-		LCD_DrawPixel(CoordiX+i, CoordiY, Color);
+  for(i = 0; i < Length; i++)
+    LCD_DrawPixel(CoordiX+i, CoordiY, Color);
 }
 /*====================================================================================================*/
 /*====================================================================================================*
@@ -515,15 +522,15 @@ void LCD_DrawLineX( uint16_t CoordiX, uint16_t CoordiY, uint16_t Length, uint16_
 **功能 : Draw Y-Axis Line
 **輸入 : CoordiX, CoordiY, Length, Color
 **輸出 : None
-**使用 : LCD_DrawLine(CoordiX, CoordiY, Length, Color);
+**使用 : LCD_DrawLine(CoordiX, CoordiY, Length, Color)
 **====================================================================================================*/
 /*====================================================================================================*/
 void LCD_DrawLineY( uint16_t CoordiX, uint16_t CoordiY, uint16_t Length, uint16_t Color )
 {
-	uint16_t i;
+  uint16_t i;
 
-	for(i=0; i<Length; i++)
-		LCD_DrawPixel(CoordiX, CoordiY+i, Color);
+  for(i = 0; i < Length; i++)
+    LCD_DrawPixel(CoordiX, CoordiY+i, Color);
 }
 /*====================================================================================================*/
 /*====================================================================================================*
@@ -531,21 +538,21 @@ void LCD_DrawLineY( uint16_t CoordiX, uint16_t CoordiY, uint16_t Length, uint16_
 **功能 : Draw Rectangle
 **輸入 : CoordiX, CoordiY, Length, Width, Color
 **輸出 : None
-**使用 : LCD_DrawRectangle(CoordiX, CoordiY, Width, Height, Color);
+**使用 : LCD_DrawRectangle(CoordiX, CoordiY, Width, Height, Color)
 **====================================================================================================*/
 /*====================================================================================================*/
 void LCD_DrawRectangle( uint16_t CoordiX, uint16_t CoordiY, uint16_t Width, uint16_t Height, uint16_t Color )
 {
-	uint16_t i;
+  uint16_t i;
 
-	for(i=0; i<=Height; i++) {
-		LCD_DrawPixel(CoordiX+i, CoordiY, Color);
-		LCD_DrawPixel(CoordiX+i, CoordiY+Width, Color);
-	}
-	for(i=1; i<Width; i++) {
-		LCD_DrawPixel(CoordiX, CoordiY+i, Color);
-		LCD_DrawPixel(CoordiX+Height, CoordiY+i, Color);
-	}
+  for(i = 0; i <= Height; i++) {
+    LCD_DrawPixel(CoordiX+i, CoordiY, Color);
+    LCD_DrawPixel(CoordiX+i, CoordiY+Width, Color);
+  }
+  for(i = 1; i < Width; i++) {
+    LCD_DrawPixel(CoordiX, CoordiY+i, Color);
+    LCD_DrawPixel(CoordiX+Height, CoordiY+i, Color);
+  }
 }
 /*====================================================================================================*/
 /*====================================================================================================*
@@ -553,16 +560,16 @@ void LCD_DrawRectangle( uint16_t CoordiX, uint16_t CoordiY, uint16_t Width, uint
 **功能 : Draw Rectangle
 **輸入 : CoordiX, CoordiY, Length, Width, Color
 **輸出 : None
-**使用 : LCD_DrawRectangleFill(CoordiX, CoordiY, Width, Height, Color);
+**使用 : LCD_DrawRectangleFill(CoordiX, CoordiY, Width, Height, Color)
 **====================================================================================================*/
 /*====================================================================================================*/
 void LCD_DrawRectangleFill( uint16_t CoordiX, uint16_t CoordiY, uint16_t Width, uint16_t Height, uint16_t Color )
 {
-	uint16_t i, j;
+  uint16_t i, j;
 
-	for(i=0; i<Width; i++)
-		for(j=0; j<Height; j++)
-			LCD_DrawPixel(CoordiX+j, CoordiY+i, Color);
+  for(i = 0; i < Width; i++)
+    for(j = 0; j < Height; j++)
+      LCD_DrawPixel(CoordiX+j, CoordiY+i, Color);
 }
 /*====================================================================================================*/
 /*====================================================================================================*
@@ -570,38 +577,38 @@ void LCD_DrawRectangleFill( uint16_t CoordiX, uint16_t CoordiY, uint16_t Width, 
 **功能 : Draw Circle
 **輸入 : CoordiX, CoordiY, Radius, Color
 **輸出 : None
-**使用 : LCD_DrawCircle(CoordiX, CoordiY, Radius, Color);
+**使用 : LCD_DrawCircle(CoordiX, CoordiY, Radius, Color)
 **====================================================================================================*/
 /*====================================================================================================*/
 void LCD_DrawCircle( uint16_t CoordiX, uint16_t CoordiY, uint16_t Radius, uint16_t Color )
 {
-	int32_t a, b;
-	int32_t di;
+  int a, b;
+  int di;
 
-	a = 0;
-	b = Radius;
-	di = 3-(Radius<<1);
+  a = 0;
+  b = Radius;
+  di = 3 - (Radius << 1);
 
-	while(a<=b) {
-		LCD_DrawPixel(CoordiX-b, CoordiY-a, Color); //3
-		LCD_DrawPixel(CoordiX+b, CoordiY-a, Color); //0
-		LCD_DrawPixel(CoordiX-a, CoordiY+b, Color); //1
-		LCD_DrawPixel(CoordiX-b, CoordiY-a, Color); //7
-		LCD_DrawPixel(CoordiX-a, CoordiY-b, Color); //2
-		LCD_DrawPixel(CoordiX+b, CoordiY+a, Color); //4
-		LCD_DrawPixel(CoordiX+a, CoordiY-b, Color); //5
-		LCD_DrawPixel(CoordiX+a, CoordiY+b, Color); //6
-		LCD_DrawPixel(CoordiX-b, CoordiY+a, Color);
-		a++;
-		// 使用Bresenham算法畫圓
-		if(di<0)
-			di += 4*a+6;
-		else {
-			di+=10+4*(a-b);
-			b--;
-		}
-		LCD_DrawPixel(CoordiX+a, CoordiY+b, Color);
-	}
+  while(a <= b) {
+    LCD_DrawPixel(CoordiX-b, CoordiY-a, Color); //3
+    LCD_DrawPixel(CoordiX+b, CoordiY-a, Color); //0
+    LCD_DrawPixel(CoordiX-a, CoordiY+b, Color); //1
+    LCD_DrawPixel(CoordiX-b, CoordiY-a, Color); //7
+    LCD_DrawPixel(CoordiX-a, CoordiY-b, Color); //2
+    LCD_DrawPixel(CoordiX+b, CoordiY+a, Color); //4
+    LCD_DrawPixel(CoordiX+a, CoordiY-b, Color); //5
+    LCD_DrawPixel(CoordiX+a, CoordiY+b, Color); //6
+    LCD_DrawPixel(CoordiX-b, CoordiY+a, Color);
+    a++;
+    // 使用Bresenham算法畫圓
+    if(di < 0)
+      di += 4 * a + 6;
+    else {
+      di += 10 + 4* (a - b);
+      b--;
+    }
+    LCD_DrawPixel(CoordiX+a, CoordiY+b, Color);
+  }
 }
 /*====================================================================================================*/
 /*====================================================================================================*
@@ -614,12 +621,12 @@ void LCD_DrawCircle( uint16_t CoordiX, uint16_t CoordiY, uint16_t Radius, uint16
 /*====================================================================================================*/
 void LCD_DrawPicture( uint16_t CoordiX, uint16_t CoordiY, uint16_t Width, uint16_t Height, const uint8_t *Pic )
 {
-  uint16_t* readPixel = (uint16_t*)Pic;
-  uint32_t i = 0, j = Height*Width;
+  uint16_t *readPixel = (uint16_t*)Pic;
+  uint32_t i = 0, j = Height * Width;
 
   LCD_SetWindow(CoordiX, CoordiY, CoordiX+Width-1, CoordiY+Height-1);
 
-  for(i=0; i<j; i++)
+  for(i = 0; i < j; i++)
     LCD_WriteColor(readPixel[i]);
 }
 /*====================================================================================================*/
@@ -628,23 +635,23 @@ void LCD_DrawPicture( uint16_t CoordiX, uint16_t CoordiY, uint16_t Width, uint16
 **功能 : Put Char
 **輸入 : CoordiX, CoordiY, ChWord, FontColor, BackColor
 **輸出 : None
-**使用 : LCD_PutChar(CoordiX, CoordiY, "C", WHITE, BLACK)
+**使用 : LCD_PutChar(x, y, 'C', WHITE, BLACK)
 **====================================================================================================*/
 /*====================================================================================================*/
-void LCD_PutChar( uint16_t CoordiX, uint16_t CoordiY, int8_t* ChWord, uint16_t FontColor, uint16_t BackColor )
+void LCD_PutChar( uint16_t CoordiX, uint16_t CoordiY, int8_t *ChWord, uint16_t FontColor, uint16_t BackColor )
 {
-	uint8_t TmpChar = 0;
-	uint16_t i = 0, j = 0;
+  uint8_t Tmp_Char = 0;
+  uint16_t i = 0, j = 0;
 
-	for(i=0; i<16; i++) {
-		TmpChar = ASCII_16x8[*ChWord-32][i];
-		for(j=0; j<8; j++) {
-			if(((TmpChar>>(7-j))&0x01) == 0x01)
-				LCD_DrawPixel(CoordiX+j, CoordiY+i, FontColor);	// 字符顏色
-			else
-				LCD_DrawPixel(CoordiX+j, CoordiY+i, BackColor);	// 背景顏色
-		}
-	}
+  for(i = 0; i < 16; i++) {
+    Tmp_Char = ASCII_16x8[*ChWord-32][i];
+    for(j = 0; j < 8; j++) {
+      if(((Tmp_Char >> (7 - j)) & 0x01) == 0x01)
+        LCD_DrawPixel(CoordiX+j, CoordiY+i, FontColor); // 字符顏色
+      else
+        LCD_DrawPixel(CoordiX+j, CoordiY+i, BackColor); // 背景顏色
+    }
+  }
 }
 /*====================================================================================================*/
 /*====================================================================================================*
@@ -652,12 +659,12 @@ void LCD_PutChar( uint16_t CoordiX, uint16_t CoordiY, int8_t* ChWord, uint16_t F
 **功能 : Put String
 **輸入 : CoordiX, CoordiY, ChWord, FontStyle, FontColor, BackColor
 **輸出 : None
-**使用 : LCD_PutStr(10, 10, (uint8_t*)"TFT LCD TEST ... ", WHITE, BLACK);
+**使用 : LCD_PutStr(10, 10, (int8_t*)"TFT LCD TEST ... ", WHITE, BLACK);
 **====================================================================================================*/
 /*====================================================================================================*/
 void LCD_PutStr( uint16_t CoordiX, uint16_t CoordiY, int8_t *ChWord, uint16_t FontColor, uint16_t BackColor )
 {
-	uint16_t OffsetX = 0;
+  uint16_t OffsetX = 0;
 
   while(*ChWord) {
     LCD_PutChar(CoordiX+OffsetX, CoordiY, ChWord, FontColor, BackColor);
@@ -671,15 +678,15 @@ void LCD_PutStr( uint16_t CoordiX, uint16_t CoordiY, int8_t *ChWord, uint16_t Fo
 **功能 : Put Number
 **輸入 : oordiX, CoordiY, Type, Length, NumData, FontColor, BackColor
 **輸出 : None
-**使用 : LCD_PutNum(CoordiX, CoordiY, Type_D, Length, NumData, WHITE, BLACK);
+**使用 : LCD_PutNum(CoordiX, CoordiY, Type_D, Length, NumData, WHITE, BLACK)
 **====================================================================================================*/
 /*====================================================================================================*/
 void LCD_PutNum( uint16_t CoordiX, uint16_t CoordiY, StrType Type, uint8_t Length, uint32_t NumData, uint16_t FontColor, uint16_t BackColor )
 {
-	int8_t TmpNumber[16] = {0};
+  int8_t TmpNumber[16] = {0};
 
-	Str_NumToChar(Type, Length, TmpNumber, NumData);
-	LCD_PutStr(CoordiX, CoordiY, TmpNumber, FontColor, BackColor);
+  Str_NumToChar(Type, Length, TmpNumber, NumData);
+  LCD_PutStr(CoordiX, CoordiY, TmpNumber, FontColor, BackColor);
 }
 /*====================================================================================================*/
 /*====================================================================================================*
@@ -716,10 +723,10 @@ void LCD_TestColoBar( void )
     LBBLUE
   };
 
-	LCD_SetWindow(0, 0, LCD_W-1, LCD_H-1);
+  LCD_SetWindow(0, 0, LCD_W-1, LCD_H-1);
 
-  for(i=0; i<20; i++) {
-    j = 16*LCD_W;
+  for(i = 0; i < 20; i++) {
+    j = 16 * LCD_W;
     while(j--)
       LCD_WriteColor(drawColor[i]);
   }

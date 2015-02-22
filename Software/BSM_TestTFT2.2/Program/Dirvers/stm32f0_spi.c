@@ -11,7 +11,7 @@
 **使用 : Read = SPI_RW(SPI1, 0xFF);
 **=====================================================================================================*/
 /*=====================================================================================================*/
-uint8_t SPI_RW( SPI_TypeDef* SPIx, uint8_t WriteByte )
+uint8_t SPI_RW( SPI_TypeDef *SPIx, uint8_t WriteByte )
 {
   while((SPIx->SR & SPI_I2S_FLAG_TXE) == (uint16_t)RESET);
   SPI_SendData8(SPIx, WriteByte);

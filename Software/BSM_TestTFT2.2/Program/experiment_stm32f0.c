@@ -3,6 +3,7 @@
 #include "stm32f0_system.h"
 #include "experiment_stm32f0.h"
 #include "module_ili9341.h"
+#include "KitSproutLogo.h"
 /*=====================================================================================================*/
 /*=====================================================================================================*/
 int main( void )
@@ -12,6 +13,16 @@ int main( void )
   ILI9341_Init();
 
   LCD_TestColoBar();
+
+  LCD_DrawRectangleFill(100, 100, 100, 50, GREEN);
+  LCD_DrawRectangleFill(110, 110, 100, 50, RED);
+  LCD_DrawRectangleFill(120, 120, 100, 50, BLACK);
+  LCD_DrawRectangleFill(130, 130, 100, 50, BLUE);
+
+  LCD_DrawCircle(140, 140, 50, DARKBLUE);
+  LCD_DrawCircle(140, 140, 49, DARKBLUE);
+  LCD_DrawCircle(140, 140, 48, DARKBLUE);
+  LCD_DrawCircle(140, 140, 47, DARKBLUE);
 
   while(1) {
 
