@@ -4,7 +4,7 @@
 #include "stm32f0_adc.h"
 /*====================================================================================================*/
 /*====================================================================================================*/
-static __IO uint16_t ADC_DMA_Buf[ADC_Sample][ADC_Channel] = {0};
+static volatile uint16_t ADC_DMA_Buf[ADC_Sample][ADC_Channel] = {0};
 /*====================================================================================================*/
 /*====================================================================================================*
 **函數 : ADC_Config
@@ -27,10 +27,10 @@ void ADC_Config( void )
 
   /* ADC DMA Init *************************************************************/
   DMA_DeInit(DMA1_Channel1);
-  DMA_InitStruct.DMA_PeripheralBaseAddr = (uint32_t)ADC1_DR_ADDRESS;          // Peripheral address
-  DMA_InitStruct.DMA_MemoryBaseAddr = (uint32_t)ADC_DMA_Buf;                  // Memory address
+  DMA_InitStruct.DMA_PeripheralBaseAddr = ADC1_DR_ADDRESS;                    // Peripheral address
+  DMA_InitStruct.DMA_MemoryBaseAddr = (uint32_t)&ADC_DMA_Buf;                 // Memory address
   DMA_InitStruct.DMA_DIR = DMA_DIR_PeripheralSRC;                             // Peripheral to Memory
-  DMA_InitStruct.DMA_BufferSize = ADC_Channel*ADC_Sample;                     // Memory Buffer Size
+  DMA_InitStruct.DMA_BufferSize = ADC_Channel * ADC_Sample;                   // Memory Buffer Size
   DMA_InitStruct.DMA_PeripheralInc = DMA_PeripheralInc_Disable;               // Peripheral address 遞增 Disable
   DMA_InitStruct.DMA_MemoryInc = DMA_MemoryInc_Enable;                        // Memory address 遞增 Enable
   DMA_InitStruct.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;    // Peripheral Data Size 16bit
@@ -52,8 +52,8 @@ void ADC_Config( void )
   ADC_InitStruct.ADC_ScanDirection = ADC_ScanDirection_Upward;
   ADC_Init(ADC1, &ADC_InitStruct); 
 
-  ADC_ChannelConfig(ADC1, ADC_Channel_0, ADC_SampleTime_55_5Cycles);
-  ADC_ChannelConfig(ADC1, ADC_Channel_1, ADC_SampleTime_55_5Cycles);
+  ADC_ChannelConfig(ADC1, ADC_Channel_0, ADC_SampleTime_28_5Cycles);
+  ADC_ChannelConfig(ADC1, ADC_Channel_1, ADC_SampleTime_28_5Cycles);
 
   ADC_GetCalibrationFactor(ADC1);
   ADC_DMACmd(ADC1, ENABLE);
@@ -67,18 +67,19 @@ void ADC_Config( void )
 **功能 : 將 ADC 轉換後的資料取平均
 **輸入 : *pADC_AveTr, AveSample
 **輸出 : None
-**使用 : ADC_Average(ADC_AveTr);
+**使用 : ADC_Average(ADC_AveData, 64);
 **====================================================================================================*/
 /*====================================================================================================*/
-void ADC_Average( uint16_t* pADC_AveTr )
+void ADC_Average( uint16_t *pADC_AveTr, uint8_t AveSample )
 {
-  uint8_t i = 0, j = 0;;
-  uint32_t ADC_DMA_Tmp[ADC_Channel] = {0};
+  uint8_t i = 0, j = 0;
+  uint32_t ADC_DMA_Temp = 0;
 
-  for(i=0; i<ADC_Channel; i++) {
-    for(j=0; j<ADC_Sample; j++)
-      ADC_DMA_Tmp[i] += ADC_DMA_Buf[j][i];
-    pADC_AveTr[i] = (uint16_t)(ADC_DMA_Tmp[i] / ADC_Sample);
+  for(i = 0; i < ADC_Channel; i++) {
+    for(j = 0; j < AveSample; j++)
+      ADC_DMA_Temp += ADC_DMA_Buf[ADC_Sample-1-j][i];
+    pADC_AveTr[i] = (uint16_t)(ADC_DMA_Temp / AveSample);
+    ADC_DMA_Temp = 0;
   }
 }
 /*====================================================================================================*/

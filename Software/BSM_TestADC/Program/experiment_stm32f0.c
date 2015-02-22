@@ -8,21 +8,20 @@
 /*=====================================================================================================*/
 int main( void )
 {
-  uint16_t ADC_AVE[ADC_Channel] = {0};
+  uint16_t ADC_AveTr[ADC_Channel] = {0};
 
-  SystemInit();
   ADC_Config();
   RS232_Config();
 
   while(1) {
-    ADC_Average(ADC_AVE);
-    RS232_SendStr((uint8_t*)"\f");
-    RS232_SendStr((uint8_t*)"ADC_AVE_1 = ");
-    RS232_SendNum(Type_D, 4, ADC_AVE[0]);
-    RS232_SendStr((uint8_t*)"\r\n");
-    RS232_SendStr((uint8_t*)"ADC_AVE_2 = ");
-    RS232_SendNum(Type_D, 4, ADC_AVE[1]);
-    RS232_SendStr((uint8_t*)"\r\n");
+    RS232_SendStr((int8_t*)"\f");
+    ADC_Average(ADC_AveTr, 64);
+    RS232_SendStr((int8_t*)"ADC_PA0 = ");
+    RS232_SendNum(Type_D, 4, ADC_AveTr[0]);
+    RS232_SendStr((int8_t*)"\r\n");
+    RS232_SendStr((int8_t*)"ADC_PA1 = ");
+    RS232_SendNum(Type_D, 4, ADC_AveTr[1]);
+    RS232_SendStr((int8_t*)"\r\n");
     Delay_100ms(1);
   }
 }

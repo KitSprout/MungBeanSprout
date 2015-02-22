@@ -79,13 +79,13 @@ void RS232_Config( void )
 **功能 : 發送字串
 **輸入 : *pWord
 **輸出 : None
-**使用 : RS232_SendStr((uint8_t*)"Hellow World!");
+**使用 : RS232_SendStr((int8_t*)"Hello World!");
 **====================================================================================================*/
 /*====================================================================================================*/
-void RS232_SendStr( uint8_t *pWord )
+void RS232_SendStr( int8_t *pWord )
 {
   while(*pWord != '\0') {
-    UART_SendByte(USARTx, *pWord);
+    UART_SendByte(USARTx, pWord);
     pWord++;
   }
 }
@@ -100,13 +100,13 @@ void RS232_SendStr( uint8_t *pWord )
 /*====================================================================================================*/
 void RS232_SendNum( StrType Type, uint8_t NumLen, int32_t SendData )
 {
-  uint8_t TrData[32] = {0};
-  uint8_t *pWord = TrData;
+  int8_t TrData[32] = {0};
+  int8_t *pWord = TrData;
 
   Str_NumToChar(Type, NumLen, TrData, SendData);
 
   while(*pWord != '\0') {
-    UART_SendByte(USARTx, *pWord);
+    UART_SendByte(USARTx, pWord);
     pWord++;
   }
 }
@@ -119,7 +119,7 @@ void RS232_SendNum( StrType Type, uint8_t NumLen, int32_t SendData )
 **使用 : RS232_SendData(SendData, DataLen);
 **====================================================================================================*/
 /*====================================================================================================*/
-void RS232_SendData( uint8_t *SendData, uint16_t DataLen )
+void RS232_SendData( int8_t *SendData, uint16_t DataLen )
 {
   UART_SendData(USARTx, SendData, DataLen);
 }
@@ -132,13 +132,34 @@ void RS232_SendData( uint8_t *SendData, uint16_t DataLen )
 **使用 : RS232_RecvStr(RecvStirng);
 **====================================================================================================*/
 /*====================================================================================================*/
-void RS232_RecvStr( uint8_t *pWord )
+void RS232_RecvStr( int8_t *pWord )
 {
   do {
-    *pWord = UART_RecvByte(USARTx);
-    pWord++;
+    UART_RecvByte(USARTx, pWord++);
   } while(*(pWord-1) != '\0');
   *pWord = '\0';
+}
+/*====================================================================================================*/
+/*====================================================================================================*
+**函數 : RS232_RecvStrWTO
+**功能 : 接收字串, 並加入 Timeout 功能
+**輸入 : *pWord, TimeoutMs
+**輸出 : State
+**使用 : RS232_RecvStrWTO(RecvStirng, 200);
+**====================================================================================================*/
+/*====================================================================================================*/
+int8_t RS232_RecvStrWTO( int8_t *pWord, int32_t TimeoutMs )
+{
+  int8_t State = ERROR;
+
+  do {
+    State = UART_RecvByteWTO(USARTx, pWord++, TimeoutMs);
+    if(State == ERROR)
+      return ERROR;
+  } while(*(pWord-1) != '\0');
+  *pWord = '\0';
+
+  return SUCCESS;
 }
 /*====================================================================================================*/
 /*====================================================================================================*
@@ -149,9 +170,22 @@ void RS232_RecvStr( uint8_t *pWord )
 **使用 : RS232_RecvData(RecvData, DataLen);
 **====================================================================================================*/
 /*====================================================================================================*/
-void RS232_RecvData( uint8_t *RecvData, uint16_t DataLen )
+void RS232_RecvData( int8_t *RecvData, uint16_t DataLen )
 {
   UART_RecvData(USARTx, RecvData, DataLen);
+}
+/*====================================================================================================*/
+/*====================================================================================================*
+**函數 : RS232_RecvDataWTO
+**功能 : 接收資料, 並加入 Timeout 功能
+**輸入 : *RecvData, DataLen, TimeoutMs
+**輸出 : State
+**使用 : RS232_RecvDataWTO(RecvData, DataLen, 200);
+**====================================================================================================*/
+/*====================================================================================================*/
+int8_t RS232_RecvDataWTO( int8_t *RecvData, uint16_t DataLen, int32_t TimeoutMs )
+{
+  return UART_RecvDataWTO(USARTx, RecvData, DataLen, TimeoutMs);
 }
 /*====================================================================================================*/
 /*====================================================================================================*/
