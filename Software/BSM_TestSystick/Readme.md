@@ -10,10 +10,3 @@ MungBeanSprout Systick 的範例程式，透過 Systick 實現 delay 功能。
 Hardware
 ========
 * LED  
-PC13 - LED_B  
-PC14 - LED_G  
-PC15 - LED_R  
-
-* KEY  
-PA0  - KEY_WU  
-PB2  - KEY_BO  
