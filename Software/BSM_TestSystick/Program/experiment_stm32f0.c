@@ -4,21 +4,19 @@
 #include "experiment_stm32f0.h"
 /*=====================================================================================================*/
 /*=====================================================================================================*/
-__IO uint32_t TimingDelay;
+volatile uint32_t Systick_Delay = 0;
 
-void DelaySystick_1ms( __IO uint32_t delayTime )
+void SystickDelay_1ms( volatile uint32_t DelayTimes )
 {
-  TimingDelay = delayTime;
-  while(TimingDelay != 0);
+  Systick_Delay = DelayTimes;
+  while(Systick_Delay != 0);
 }
-/*=====================================================================================================*/
-/*=====================================================================================================*/
+
 int main( void )
 {
-  SystemInit();
   GPIO_Config();
 
-  if(SysTick_Config(SystemCoreClock/1000)) {  // 1 ms
+  if(SysTick_Config(SystemCoreClock / 1000)) {  // 1 ms
     while(1);
   }
 
@@ -26,11 +24,11 @@ int main( void )
     GPIO_SetBits(GPIOA, GPIO_Pin_0  | GPIO_Pin_1  | GPIO_Pin_2  | GPIO_Pin_3  | GPIO_Pin_4  |
                         GPIO_Pin_5  | GPIO_Pin_6  | GPIO_Pin_7  | GPIO_Pin_9  | GPIO_Pin_10);
     GPIO_SetBits(GPIOB, GPIO_Pin_1);
-    DelaySystick_1ms(100);
+    SystickDelay_1ms(1000);
     GPIO_ResetBits(GPIOA, GPIO_Pin_0  | GPIO_Pin_1  | GPIO_Pin_2  | GPIO_Pin_3  | GPIO_Pin_4  |
                           GPIO_Pin_5  | GPIO_Pin_6  | GPIO_Pin_7  | GPIO_Pin_9  | GPIO_Pin_10);
     GPIO_ResetBits(GPIOB, GPIO_Pin_1);
-    DelaySystick_1ms(100);
+    SystickDelay_1ms(1000);
   }
 }
 /*=====================================================================================================*/

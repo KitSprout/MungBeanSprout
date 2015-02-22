@@ -3,30 +3,44 @@
 #include "stm32f0_system.h"
 /*====================================================================================================*/
 /*====================================================================================================*/
-extern __IO uint32_t TimingDelay;
-/*====================================================================================================*/
-/*====================================================================================================*/
+extern volatile uint32_t Systick_Delay;
+
 void SysTick_Handler( void )
 {
-  if(TimingDelay != 0x00)
-    TimingDelay--;
+  if(Systick_Delay != 0)
+    Systick_Delay--;
 }
 /*====================================================================================================*/
 /*====================================================================================================*/
-void NMI_Handler( void )
-{
-}
-void HardFault_Handler( void )
-{
-  while (1)
-  {
-  }
-}
-void SVC_Handler( void )
-{
-}
-void PendSV_Handler( void )
-{
-}
+void NMI_Handler( void ) { while(1); }
+void HardFault_Handler( void ) { while(1); }
+void SVC_Handler( void ) { while(1); }
+void PendSV_Handler( void ) { while(1); }
+/*====================================================================================================*/
+/*====================================================================================================*/
+//void WWDG_IRQHandler( void );
+//void RTC_IRQHandler( void );
+//void FLASH_IRQHandler( void );
+//void RCC_IRQHandler( void );
+//void EXTI0_1_IRQHandler( void );
+//void EXTI2_3_IRQHandler( void );
+//void EXTI4_15_IRQHandler( void );
+//void DMA1_Channel1_IRQHandler( void );
+//void DMA1_Channel2_3_IRQHandler( void );
+//void DMA1_Channel4_5_IRQHandler( void );
+//void ADC1_IRQHandler( void );
+//void TIM1_BRK_UP_TRG_COM_IRQHandler( void );
+//void TIM1_CC_IRQHandler( void );
+//void TIM3_IRQHandler( void );
+//void TIM14_IRQHandler( void );
+//void TIM15_IRQHandler( void );
+//void TIM16_IRQHandler( void );
+//void TIM17_IRQHandler( void );
+//void I2C1_IRQHandler( void );
+//void I2C2_IRQHandler( void );
+//void SPI1_IRQHandler( void );
+//void SPI2_IRQHandler( void );
+//void USART1_IRQHandler( void );
+//void USART2_IRQHandler( void );
 /*====================================================================================================*/
 /*====================================================================================================*/
