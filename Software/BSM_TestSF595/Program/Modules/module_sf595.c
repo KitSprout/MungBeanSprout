@@ -4,31 +4,31 @@
 #include "module_sf595.h"
 /*====================================================================================================*/
 /*====================================================================================================*/
-#define SF595_DI_PIN        GPIO_Pin_0
+#define SF595_DI_PIN        GPIO_Pin_1
 #define SF595_DI_GPIO_PORT  GPIOA
 #define SF595_DI_GPIO_CLK   RCC_AHBPeriph_GPIOA
 #define SF595_DI_H          GPIO_SetBits(SF595_DI_GPIO_PORT, SF595_DI_PIN)
 #define SF595_DI_L          GPIO_ResetBits(SF595_DI_GPIO_PORT, SF595_DI_PIN)
 
-#define SF595_OE_PIN        GPIO_Pin_1
+#define SF595_OE_PIN        GPIO_Pin_2
 #define SF595_OE_GPIO_PORT  GPIOA
 #define SF595_OE_GPIO_CLK   RCC_AHBPeriph_GPIOA
 #define SF595_OE_H          GPIO_SetBits(SF595_OE_GPIO_PORT, SF595_OE_PIN)
 #define SF595_OE_L          GPIO_ResetBits(SF595_OE_GPIO_PORT, SF595_OE_PIN)
 
-#define SF595_ST_PIN        GPIO_Pin_2
+#define SF595_ST_PIN        GPIO_Pin_3
 #define SF595_ST_GPIO_PORT  GPIOA
 #define SF595_ST_GPIO_CLK   RCC_AHBPeriph_GPIOA
 #define SF595_ST_H          GPIO_SetBits(SF595_ST_GPIO_PORT, SF595_ST_PIN)
 #define SF595_ST_L          GPIO_ResetBits(SF595_ST_GPIO_PORT, SF595_ST_PIN)
 
-#define SF595_SH_PIN        GPIO_Pin_3
+#define SF595_SH_PIN        GPIO_Pin_4
 #define SF595_SH_GPIO_PORT  GPIOA
 #define SF595_SH_GPIO_CLK   RCC_AHBPeriph_GPIOA
 #define SF595_SH_H          GPIO_SetBits(SF595_SH_GPIO_PORT, SF595_SH_PIN)
 #define SF595_SH_L          GPIO_ResetBits(SF595_SH_GPIO_PORT, SF595_SH_PIN)
 
-#define SF595_MR_PIN        GPIO_Pin_4
+#define SF595_MR_PIN        GPIO_Pin_5
 #define SF595_MR_GPIO_PORT  GPIOA
 #define SF595_MR_GPIO_CLK   RCC_AHBPeriph_GPIOA
 #define SF595_MR_H          GPIO_SetBits(SF595_MR_GPIO_PORT, SF595_MR_PIN)
@@ -162,10 +162,10 @@ void SF595_SendByte( uint8_t SendData )
 {
   uint8_t i = 0;
 
-  for(i=0; i<8; i++) {
+  for(i = 0; i < 8; i++) {
     SF595_SH_L;
     SF595_ST_L;
-    if(SendData & (0x80>>i))
+    if(SendData & (0x80 >> i))
       SF595_DI_H;
     else
       SF595_DI_L;
