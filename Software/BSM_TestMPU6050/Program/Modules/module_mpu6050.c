@@ -24,13 +24,8 @@ uint8_t MPU6050_Init( void )
     {0x32, MPU6050_INT_PIN_CFG},  // 
     {0x00, MPU6050_USER_CTRL}     // 
   };
-//	Single_WriteI2C(PWR_MGMT_1, 0x00);
-//	Single_WriteI2C(SMPLRT_DIV, 0x07);
-//	Single_WriteI2C(CONFIG, 0x06);
-//	Single_WriteI2C(GYRO_CONFIG, 0x18);
-//	Single_WriteI2C(ACCEL_CONFIG, 0x01);
 
-  I2C_Config();
+  SimI2C_Config();
   Delay_10ms(1);
 
   /* Check Device ID */
@@ -39,8 +34,8 @@ uint8_t MPU6050_Init( void )
 
   Delay_10ms(1);
 
-  for(i=0; i<6; i++) {
-    I2C_WriteReg(MPU6050_I2C_ADDR, MPU6050_InitData[i][1], MPU6050_InitData[i][0]);
+  for(i = 0; i < 6; i++) {
+    SimI2C_WriteReg(MPU6050_I2C_ADDR, MPU6050_InitData[i][1], MPU6050_InitData[i][0]);
     Delay_10ms(1);
   }
 
@@ -59,7 +54,7 @@ uint8_t MPU6050_GetDeviceID( void )
 {
 	uint8_t DeviceID = 0x00;
 
-  I2C_ReadReg(MPU6050_I2C_ADDR, MPU6050_WHO_AM_I, &DeviceID);
+  SimI2C_ReadReg(MPU6050_I2C_ADDR, MPU6050_WHO_AM_I, &DeviceID);
 
   return DeviceID;
 }
@@ -76,15 +71,15 @@ void MPU6050_GetData( int16_t *IMU_Buf )
 {
   uint8_t ReadBuf[16] = {0};
 
-  I2C_ReadRegs(MPU6050_I2C_ADDR, MPU6050_ACCEL_XOUT_H, ReadBuf, 14);
+  SimI2C_ReadRegs(MPU6050_I2C_ADDR, MPU6050_ACCEL_XOUT_H, ReadBuf, 14);
 
-  IMU_Buf[0] = (int16_t)(Byte16(ReadBuf[0],  ReadBuf[1]));    // Acc.X
-  IMU_Buf[1] = (int16_t)(Byte16(ReadBuf[2],  ReadBuf[3]));    // Acc.Y
-  IMU_Buf[2] = (int16_t)(Byte16(ReadBuf[4],  ReadBuf[5]));    // Acc.Z
-  IMU_Buf[3] = (int16_t)(Byte16(ReadBuf[8],  ReadBuf[9]));    // Gyr.X
-  IMU_Buf[4] = (int16_t)(Byte16(ReadBuf[10], ReadBuf[11]));   // Gyr.Y
-  IMU_Buf[5] = (int16_t)(Byte16(ReadBuf[12], ReadBuf[13]));   // Gyr.Z
-  IMU_Buf[6] = (int16_t)(Byte16(ReadBuf[6],  ReadBuf[7]));    // Temp
+  IMU_Buf[0] = (Byte16(int16_t, ReadBuf[0],  ReadBuf[1]));    // Acc.X
+  IMU_Buf[1] = (Byte16(int16_t, ReadBuf[2],  ReadBuf[3]));    // Acc.Y
+  IMU_Buf[2] = (Byte16(int16_t, ReadBuf[4],  ReadBuf[5]));    // Acc.Z
+  IMU_Buf[3] = (Byte16(int16_t, ReadBuf[8],  ReadBuf[9]));    // Gyr.X
+  IMU_Buf[4] = (Byte16(int16_t, ReadBuf[10], ReadBuf[11]));   // Gyr.Y
+  IMU_Buf[5] = (Byte16(int16_t, ReadBuf[12], ReadBuf[13]));   // Gyr.Z
+  IMU_Buf[6] = (Byte16(int16_t, ReadBuf[6],  ReadBuf[7]));    // Temp
 }
 /*==============================================================================================*/
 /*==============================================================================================*/
