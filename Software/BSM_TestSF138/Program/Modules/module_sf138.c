@@ -4,25 +4,25 @@
 #include "module_sf138.h"
 /*====================================================================================================*/
 /*====================================================================================================*/
-#define SF138_A0_PIN        GPIO_Pin_0
+#define SF138_A0_PIN        GPIO_Pin_1
 #define SF138_A0_GPIO_PORT  GPIOA
 #define SF138_A0_GPIO_CLK   RCC_AHBPeriph_GPIOA
 #define SF138_A0_H          GPIO_SetBits(SF138_A0_GPIO_PORT, SF138_A0_PIN)
 #define SF138_A0_L          GPIO_ResetBits(SF138_A0_GPIO_PORT, SF138_A0_PIN)
 
-#define SF138_A1_PIN        GPIO_Pin_1
+#define SF138_A1_PIN        GPIO_Pin_2
 #define SF138_A1_GPIO_PORT  GPIOA
 #define SF138_A1_GPIO_CLK   RCC_AHBPeriph_GPIOA
 #define SF138_A1_H          GPIO_SetBits(SF138_A1_GPIO_PORT, SF138_A1_PIN)
 #define SF138_A1_L          GPIO_ResetBits(SF138_A1_GPIO_PORT, SF138_A1_PIN)
 
-#define SF138_A2_PIN        GPIO_Pin_2
+#define SF138_A2_PIN        GPIO_Pin_3
 #define SF138_A2_GPIO_PORT  GPIOA
 #define SF138_A2_GPIO_CLK   RCC_AHBPeriph_GPIOA
 #define SF138_A2_H          GPIO_SetBits(SF138_A2_GPIO_PORT, SF138_A2_PIN)
 #define SF138_A2_L          GPIO_ResetBits(SF138_A2_GPIO_PORT, SF138_A2_PIN)
 
-#define SF138_EN_PIN        GPIO_Pin_3
+#define SF138_EN_PIN        GPIO_Pin_4
 #define SF138_EN_GPIO_PORT  GPIOA
 #define SF138_EN_GPIO_CLK   RCC_AHBPeriph_GPIOA
 #define SF138_EN_H          GPIO_SetBits(SF138_EN_GPIO_PORT, SF138_EN_PIN)
@@ -107,18 +107,12 @@ void SF138_Cmd( FunctionalState NewState )
 /*====================================================================================================*/
 void SF138_WriteData( uint8_t writeData )
 {
-  if((writeData & 0x01) == 0x01)
-    SF138_A0_H;
-  else
-    SF138_A0_L;
-  if((writeData & 0x02) == 0x02)
-    SF138_A1_H;
-  else
-    SF138_A1_L;
-  if((writeData & 0x04) == 0x04)
-    SF138_A2_H;
-  else
-    SF138_A2_L;
+  if((writeData & 0x01) == 0x01)  SF138_A0_H;
+  else                            SF138_A0_L;
+  if((writeData & 0x02) == 0x02)  SF138_A1_H;
+  else                            SF138_A1_L;
+  if((writeData & 0x04) == 0x04)  SF138_A2_H;
+  else                            SF138_A2_L;
 }
 /*====================================================================================================*/
 /*====================================================================================================*/
