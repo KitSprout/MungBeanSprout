@@ -2,7 +2,7 @@
 ========
 * Author  : [Hom](https://github.com/Hom-Wang)
 * Version : v1.0
-* Update  : 2015/03/02
+* Update  : 2015/03/20
 
 Description
 ========
@@ -25,7 +25,7 @@ Hardware
 
 Software
 ========
-* 開發環境 Keil uVision v5.13
+* 開發環境 Keil uVision v5.14
 * [BSM_TestADC](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_TestADC) ... ADC 讀取範例
 * [BSM_TestGPIO](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_TestGPIO) ... GPIO 輸入輸出範例
 * [BSM_TestMPU6050](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_TestMPU6050) ... MPU6050 模擬I2C 讀寫範例
@@ -47,8 +47,7 @@ View
 
 Config
 ========
-<img src="https://lh4.googleusercontent.com/-wGYIDgoioXk/VHLSwlL3PaI/AAAAAAAALYc/_CMvftVr67A/s1600/Config_2.png" />
-<img src="https://lh4.googleusercontent.com/-3KsPbPbc0GA/VHLSwltHYBI/AAAAAAAALYY/uF6fmXXzD_c/s1600/Config_1.png" />
+<img src="https://lh6.googleusercontent.com/-rbNl7nZQ8mY/VQvcjMh2JEI/AAAAAAAAL8s/8AdMNP_puGw/s1600/MungBeanSprout.png" />
 
 Schematic
 ========
