@@ -52,3 +52,7 @@ Config
 Schematic
 ========
 <img src="https://lh3.googleusercontent.com/-ct5bmDdww5s/VGc2Jpql_bI/AAAAAAAALLE/xLAkGv6_mY0/s1600/Sch_MungBeanSprout.png"/>
+
+Get it
+========
+http://goods.ruten.com.tw/item/show?21448823039835
