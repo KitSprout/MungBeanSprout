@@ -2,7 +2,7 @@
 ========
 * Author  : [Hom](https://github.com/Hom-Wang)
 * Version : v1.0
-* Update  : 2015/03/26
+* Update  : 2015/07/31
 
 Description
 ========
@@ -21,7 +21,10 @@ Hardware
 ========
 * 控制器　 : [STM32F030F](http://www.st.com/web/en/catalog/mmc/FM141/SC1169/SS1574/LN1826/PF258968) 20Pin 48MHz
 * PCB 尺寸 : 15.24 * 18.00mm
-* 設計軟體 [Altium Designer 14](http://www.altium.com/en/products/altium-designer) ( PcbLib use AD [PcbLib v1.1](https://github.com/KitSprout/AltiumDesigner_PcbLibrary/releases/tag/v1.1) )
+* 設計軟體 [Altium Designer 14](http://www.altium.com/en/products/altium-designer) ( PcbLib use AD [PcbLib v1.1](https://github.com/KitSprout/AltiumDesigner_PcbLibrary/releases/tag/v1.1) )  
+  
+相關的應用  
+WheelLED：https://github.com/KitSprout/WheelLED
 
 Software
 ========
