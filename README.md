@@ -2,11 +2,14 @@
 ========
 * Author  : [Hom](https://github.com/Hom-Wang)
 * Version : v1.0
-* Update  : 2015/07/31
+* Update  : 2015/08/13
 
 Description
 ========
-MungBeanSprout 是一個 STM32F030F 的開發模組，體積小、成本低、並拉出所有的 GPIO、可以直接插在麵包板上，使用 3V3 供電。
+MungBeanSprout 是一個 STM32F030F 的開發模組，體積小、成本低、並拉出所有的 GPIO、可以直接插在麵包板上，使用 3V3 供電。  
+
+相關應用  
+* WheelLED：https://github.com/KitSprout/WheelLED
 
 License
 ========
@@ -22,9 +25,6 @@ Hardware
 * 控制器　 : [STM32F030F](http://www.st.com/web/en/catalog/mmc/FM141/SC1169/SS1574/LN1826/PF258968) 20Pin 48MHz
 * PCB 尺寸 : 15.24 * 18.00mm
 * 設計軟體 [Altium Designer 14](http://www.altium.com/en/products/altium-designer) ( PcbLib use AD [PcbLib v1.1](https://github.com/KitSprout/AltiumDesigner_PcbLibrary/releases/tag/v1.1) )  
-  
-相關的應用  
-WheelLED：https://github.com/KitSprout/WheelLED
 
 Software
 ========
@@ -39,6 +39,7 @@ Software
 * [BSM_Module_SF138](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_Module_SF138) ... [74HC138](https://github.com/KitSprout/74HC138) 範例
 * [BSM_Module_SF595](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_Module_SF595) ... [74HC595](https://github.com/KitSprout/74HC595) 範例
 * [BSM_Module_TFT2.2](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_Module_TFT2.2) ... [TFT2.2-inch](https://github.com/KitSprout/TFT_2.2-inch) 範例
+* [BSM_PeripheralHAL_GPIO](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_PeripheralHAL_GPIO) ... GPIO 範例 (HAL Driver)
 
 Related Documents
 ========
