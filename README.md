@@ -2,7 +2,7 @@
 ========
 * Author  : [Hom](https://github.com/Hom-Wang)
 * Version : v1.0
-* Update  : 2015/08/13
+* Update  : 2015/08/20
 
 Description
 ========
@@ -36,6 +36,8 @@ Software
 * [BSM_Peripheral_UART](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_Peripheral_UART) ... UART 傳輸範例
 * [BSM_Peripheral_UART_IntRecv](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_Peripheral_UART_IntRecv) ... UART 中斷接收範例
 * [BSM_PeripheralHAL_GPIO](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_PeripheralHAL_GPIO) ... GPIO 範例 (HAL Driver)
+* [BSM_PeripheralHAL_TIM-PWM](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_PeripheralHAL_TIM-PWM) ... Timer PWM 輸出範例 (HAL Driver)
+* [BSM_PeripheralHAL_UART](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_PeripheralHAL_UART) ... UART 傳輸範例 (HAL Driver)
 * [BSM_Module_MPU6050](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_Module_MPU6050) ... MPU6050 範例
 * [BSM_Module_SF138](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_Module_SF138) ... [74HC138](https://github.com/KitSprout/74HC138) 範例
 * [BSM_Module_SF595](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_Module_SF595) ... [74HC595](https://github.com/KitSprout/74HC595) 範例
