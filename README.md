@@ -2,7 +2,7 @@
 ========
 * Author  : [Hom](https://github.com/Hom-Wang)
 * Version : v1.0
-* Update  : 2015/08/20
+* Update  : 2015/08/23
 
 Description
 ========
@@ -35,6 +35,7 @@ Software
 * [BSM_Peripheral_Systick](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_Peripheral_Systick) ... Systick 範例
 * [BSM_Peripheral_UART](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_Peripheral_UART) ... UART 傳輸範例
 * [BSM_Peripheral_UART_IntRecv](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_Peripheral_UART_IntRecv) ... UART 中斷接收範例
+* [BSM_PeripheralHAL_FLASH](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_PeripheralHAL_FLASH) ... FLASH 讀寫範例 (HAL Driver)
 * [BSM_PeripheralHAL_GPIO](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_PeripheralHAL_GPIO) ... GPIO 範例 (HAL Driver)
 * [BSM_PeripheralHAL_TIM-PWM](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_PeripheralHAL_TIM-PWM) ... Timer PWM 輸出範例 (HAL Driver)
 * [BSM_PeripheralHAL_UART](https://github.com/KitSprout/MungBeanSprout/tree/master/Software/BSM_PeripheralHAL_UART) ... UART 傳輸範例 (HAL Driver)
