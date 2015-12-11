@@ -10,7 +10,7 @@
       <TargetName>STM32F030F</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060020::V5.06 (build 20)::ARMCC</pCCUsed>
+      <pCCUsed>5060061::V5.06 update 1 (build 61)::ARMCC</pCCUsed>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32F030F4</Device>
@@ -442,14 +442,14 @@
               <FilePath>..\Libraries\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_cortex.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f0xx_hal_rcc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Libraries\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_rcc.c</FilePath>
-            </File>
-            <File>
               <FileName>stm32f0xx_hal_dma.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Libraries\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f0xx_hal_rcc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Libraries\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_rcc.c</FilePath>
             </File>
             <File>
               <FileName>stm32f0xx_hal_gpio.c</FileName>
@@ -479,7 +479,7 @@
             <File>
               <FileName>stm32f0_delay.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Program\Dirvers\stm32f0_delay.c</FilePath>
+              <FilePath>..\Program\drivers\stm32f0_delay.c</FilePath>
             </File>
           </Files>
         </Group>
