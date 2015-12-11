@@ -1,35 +1,38 @@
 /*=====================================================================================================*/
 /*=====================================================================================================*/
-#include "Dirvers\stm32f0_system.h"
-#include "Modules\module_rs232.h"
+#include "drivers\stm32f0_system.h"
+#include "modules\module_serial.h"
 
 #include "experiment_stm32f0.h"
 /*=====================================================================================================*/
 /*=====================================================================================================*/
-#define RECV_DATA_TIMEOUT 500 // timeout = 500ms
+void System_Init( void )
+{
+  HAL_Init();
+  Serial_Config();
+
+  Delay_100ms(1);
+  printf("\r\nHello World!\r\n\r\n");
+}
 
 int main( void )
 {
   static uint8_t i = 0;
-  static uint8_t RecvData = 0;
-  static int8_t State = ERROR;
+  static uint8_t recvData = 0;
+  static int8_t state = ERROR;
 
-  HAL_Init();
-
-  RS232_Config();
-
-  printf("\r\nHello World!\r\n\r\n");
+  System_Init();
 
   while(1) {
-    State = RS232_RecvDataWTO(&RecvData, 1, RECV_DATA_TIMEOUT);
-    if(State == ERROR) {
-      printf("Timeout ... %d\r\n", i);
+    state = Serial_RecvDataWTO(&recvData, 1, 500);
+    if(state == ERROR) {
+      printf("timeout ... %d\r\n", i);
       i = (i == 255) ? 0 : i + 1;
     }
-    else if(RecvData == 0x0D)  // if press enter
-      RS232_SendStr("\r\n");
+    else if(recvData == 0x0D)  // if press enter
+      printf("\r\n");
     else
-      RS232_SendData(&RecvData, 1);
+      Serial_SendData(&recvData, 1);
   }
 }
 /*=====================================================================================================*/
