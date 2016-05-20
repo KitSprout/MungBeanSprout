@@ -1,9 +1,9 @@
-;******************** (C) COPYRIGHT 2015 STMicroelectronics ********************
-;* File Name          : startup_stm32f030x6.s
+;******************** (C) COPYRIGHT 2016 STMicroelectronics ********************
+;* File Name          : startup_stm32f030x8.s
 ;* Author             : MCD Application Team
-;* Version            : V2.2.2
-;* Date               : 26-June-2015
-;* Description        : STM32F030x4/STM32F030x6 devices vector table for MDK-ARM toolchain.
+;* Version            : V2.2.3
+;* Date               : 29-January-2016
+;* Description        : STM32F030x8 devices vector table for MDK-ARM toolchain.
 ;*                      This module performs:
 ;*                      - Set the initial SP
 ;*                      - Set the initial PC == Reset_Handler
@@ -14,7 +14,7 @@
 ;*                      priority is Privileged, and the Stack is set to Main.
 ;* <<< Use Configuration Wizard in Context Menu >>>
 ;*******************************************************************************
-;
+;*
 ;* Redistribution and use in source and binary forms, with or without modification,
 ;* are permitted provided that the following conditions are met:
 ;*   1. Redistributions of source code must retain the above copyright notice,
@@ -111,15 +111,15 @@ __Vectors       DCD     __initial_sp                   ; Top of Stack
                 DCD     0                              ; Reserved
                 DCD     0                              ; Reserved
                 DCD     TIM14_IRQHandler               ; TIM14
-                DCD     0                              ; Reserved
+                DCD     TIM15_IRQHandler               ; TIM15
                 DCD     TIM16_IRQHandler               ; TIM16
                 DCD     TIM17_IRQHandler               ; TIM17
                 DCD     I2C1_IRQHandler                ; I2C1
-                DCD     0                              ; Reserved
+                DCD     I2C2_IRQHandler                ; I2C2
                 DCD     SPI1_IRQHandler                ; SPI1
-                DCD     0                              ; Reserved
+                DCD     SPI2_IRQHandler                ; SPI2
                 DCD     USART1_IRQHandler              ; USART1
-
+                DCD     USART2_IRQHandler              ; USART2
 
 __Vectors_End
 
@@ -179,12 +179,16 @@ Default_Handler PROC
                 EXPORT  TIM1_CC_IRQHandler             [WEAK]
                 EXPORT  TIM3_IRQHandler                [WEAK]
                 EXPORT  TIM14_IRQHandler               [WEAK]
+                EXPORT  TIM15_IRQHandler               [WEAK]
                 EXPORT  TIM16_IRQHandler               [WEAK]
                 EXPORT  TIM17_IRQHandler               [WEAK]
                 EXPORT  I2C1_IRQHandler                [WEAK]
+                EXPORT  I2C2_IRQHandler                [WEAK]
                 EXPORT  SPI1_IRQHandler                [WEAK]
+                EXPORT  SPI2_IRQHandler                [WEAK]
                 EXPORT  USART1_IRQHandler              [WEAK]
- 
+                EXPORT  USART2_IRQHandler              [WEAK]
+
 
 WWDG_IRQHandler
 RTC_IRQHandler
@@ -201,11 +205,15 @@ TIM1_BRK_UP_TRG_COM_IRQHandler
 TIM1_CC_IRQHandler
 TIM3_IRQHandler
 TIM14_IRQHandler
+TIM15_IRQHandler
 TIM16_IRQHandler
 TIM17_IRQHandler
 I2C1_IRQHandler
+I2C2_IRQHandler
 SPI1_IRQHandler
+SPI2_IRQHandler
 USART1_IRQHandler
+USART2_IRQHandler
 
                 B       .
 

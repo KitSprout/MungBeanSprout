@@ -15,13 +15,13 @@
         <TargetCommonOption>
           <Device>STM32F030F4</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F0xx_DFP.1.4.0</PackID>
+          <PackID>Keil.STM32F0xx_DFP.1.5.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
-          <Cpu>IROM(0x08000000,0x4000) IRAM(0x20000000,0x1000) CPUTYPE("Cortex-M0") CLOCK(12000000) ELITTLE</Cpu>
+          <Cpu>IROM(0x08000000,0x4000) IRAM(0x20000000,0x1000) CPUTYPE("Cortex-M0") CLOCK(48000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
           <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0STM32F0xx_16 -FS08000000 -FL04000 -FP0($$Device:STM32F030F4$Flash\STM32F0xx_16.FLM))</FlashDriverDll>
-          <DeviceId>0</DeviceId>
+          <DeviceId>7305</DeviceId>
           <RegisterFile>$$Device:STM32F030F4$Device\Include\stm32f0xx.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
@@ -109,7 +109,7 @@
         </CommonProperty>
         <DllOption>
           <SimDllName>SARMCM3.DLL</SimDllName>
-          <SimDllArguments> -REMAP </SimDllArguments>
+          <SimDllArguments> </SimDllArguments>
           <SimDlgDll>DARMCM1.DLL</SimDlgDll>
           <SimDlgDllArguments>-pCM0</SimDlgDllArguments>
           <TargetDllName>SARMCM3.DLL</TargetDllName>
@@ -174,10 +174,10 @@
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>4096</DriverSelection>
+            <DriverSelection>4099</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
-          <Flash2>BIN\UL2CM3.DLL</Flash2>
+          <Flash2>Segger\JL2CM3.dll</Flash2>
           <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
@@ -371,9 +371,9 @@
             <vShortWch>0</vShortWch>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_HAL_DRIVER, STM32F030x6</Define>
+              <Define>USE_STDPERIPH_DRIVER,STM32F0XX, ARM_MATH</Define>
               <Undefine></Undefine>
-              <IncludePath>..\;..\Libraries\STM32F0xx_HAL_Driver\Inc;..\Libraries\STM32F0xx_HAL_Driver\Src;..\Libraries\CMSIS;..\Program</IncludePath>
+              <IncludePath>..\Libraries\CMSIS\Device;..\Libraries\CMSIS\DSP_Lib;..\Libraries\CMSIS\Include;..\Libraries\STM32F0xx_HAL_Driver\Inc;..\Libraries\STM32F0xx_HAL_Driver\Inc\Legacy;..\Program;..\</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -419,12 +419,12 @@
             <File>
               <FileName>startup_stm32f030x6.s</FileName>
               <FileType>2</FileType>
-              <FilePath>..\Libraries\CMSIS\startup_stm32f030x6.s</FilePath>
+              <FilePath>..\Libraries\CMSIS\Device\startup_stm32f030x6.s</FilePath>
             </File>
             <File>
               <FileName>system_stm32f0xx.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Libraries\CMSIS\system_stm32f0xx.c</FilePath>
+              <FilePath>..\Libraries\CMSIS\Device\system_stm32f0xx.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -447,6 +447,11 @@
               <FilePath>..\Libraries\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_rcc.c</FilePath>
             </File>
             <File>
+              <FileName>stm32f0xx_hal_dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Libraries\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_dma.c</FilePath>
+            </File>
+            <File>
               <FileName>stm32f0xx_hal_gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Libraries\STM32F0xx_HAL_Driver\Src\stm32f0xx_hal_gpio.c</FilePath>
@@ -466,25 +471,35 @@
               <FileType>1</FileType>
               <FilePath>..\Program\drivers\stm32f0_delay.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32f0_msp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Program\drivers\stm32f0_msp.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>Program</GroupName>
           <Files>
             <File>
-              <FileName>experiment_stm32f0.c</FileName>
+              <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Program\experiment_stm32f0.c</FilePath>
+              <FilePath>..\Program\main.c</FilePath>
             </File>
             <File>
-              <FileName>experiment_stm32f0_it.c</FileName>
+              <FileName>beanSproutM.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Program\experiment_stm32f0_it.c</FilePath>
+              <FilePath>..\Program\beanSproutM.c</FilePath>
             </File>
             <File>
-              <FileName>experiment_stm32f0_msp.c</FileName>
+              <FileName>beanSproutM_bsp.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Program\experiment_stm32f0_msp.c</FilePath>
+              <FilePath>..\Program\beanSproutM_bsp.c</FilePath>
+            </File>
+            <File>
+              <FileName>beanSproutM_it.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Program\beanSproutM_it.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -492,10 +507,35 @@
           <GroupName>Module</GroupName>
         </Group>
         <Group>
-          <GroupName>Algorithms</GroupName>
+          <GroupName>Algorithm</GroupName>
         </Group>
       </Groups>
     </Target>
   </Targets>
+
+  <RTE>
+    <apis/>
+    <components/>
+    <files>
+      <file attr="config" category="sourceAsm" condition="Compiler ARMCC" name="Device\Source\ARM\startup_stm32f030.s" version="1.5.0">
+        <instance index="0" removed="1">RTE\Device\STM32F030F4\startup_stm32f030.s</instance>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.5.0" condition="STM32F030 CMSIS"/>
+        <package name="STM32F0xx_DFP" schemaVersion="1.2" url="http://www.keil.com/pack/" vendor="Keil" version="1.3.0"/>
+        <targetInfos/>
+      </file>
+      <file attr="config" category="sourceAsm" condition="Compiler ARMCC" name="Device\Source\ARM\startup_stm32f030x6.s" version="2.2.3">
+        <instance index="0" removed="1">RTE\Device\STM32F030F4\startup_stm32f030x6.s</instance>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="2.2.3" condition="STM32F030x6 CMSIS"/>
+        <package name="STM32F0xx_DFP" schemaVersion="1.2" url="http://www.keil.com/pack/" vendor="Keil" version="1.5.0"/>
+        <targetInfos/>
+      </file>
+      <file attr="config" category="sourceC" name="Device\Source\system_stm32f0xx.c" version="1.5.0">
+        <instance index="0" removed="1">RTE\Device\STM32F030F4\system_stm32f0xx.c</instance>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="2.2.3" condition="STM32F030x6 CMSIS"/>
+        <package name="STM32F0xx_DFP" schemaVersion="1.2" url="http://www.keil.com/pack/" vendor="Keil" version="1.5.0"/>
+        <targetInfos/>
+      </file>
+    </files>
+  </RTE>
 
 </Project>

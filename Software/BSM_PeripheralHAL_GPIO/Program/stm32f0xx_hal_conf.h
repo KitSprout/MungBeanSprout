@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f0xx_hal_conf.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    26-June-2015
+  * @version V1.5.0
+  * @date    29-January-2016
   * @brief   HAL configuration file.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -51,32 +51,32 @@
   * @brief This is the list of modules to be used in the HAL driver 
   */
 #define HAL_MODULE_ENABLED
-//#define HAL_ADC_MODULE_ENABLED
-//#define HAL_CAN_MODULE_ENABLED
-//#define HAL_CEC_MODULE_ENABLED
-//#define HAL_COMP_MODULE_ENABLED
+/* #define HAL_ADC_MODULE_ENABLED */
+/* #define HAL_CAN_MODULE_ENABLED */
+/* #define HAL_CEC_MODULE_ENABLED */
+/* #define HAL_COMP_MODULE_ENABLED */
 #define HAL_CORTEX_MODULE_ENABLED
-//#define HAL_CRC_MODULE_ENABLED
-//#define HAL_DAC_MODULE_ENABLED
-//#define HAL_DMA_MODULE_ENABLED
+/* #define HAL_CRC_MODULE_ENABLED */
+/* #define HAL_DAC_MODULE_ENABLED */
+/* #define HAL_DMA_MODULE_ENABLED */
 #define HAL_FLASH_MODULE_ENABLED
 #define HAL_GPIO_MODULE_ENABLED
-//#define HAL_I2C_MODULE_ENABLED
-//#define HAL_I2S_MODULE_ENABLED
-//#define HAL_IRDA_MODULE_ENABLED
-//#define HAL_IWDG_MODULE_ENABLED
-//#define HAL_PCD_MODULE_ENABLED
-//#define HAL_PWR_MODULE_ENABLED
+/* #define HAL_I2C_MODULE_ENABLED */
+/* #define HAL_I2S_MODULE_ENABLED */
+/* #define HAL_IRDA_MODULE_ENABLED */
+/* #define HAL_IWDG_MODULE_ENABLED */
+/* #define HAL_PCD_MODULE_ENABLED */
+/* #define HAL_PWR_MODULE_ENABLED */
 #define HAL_RCC_MODULE_ENABLED
-//#define HAL_RTC_MODULE_ENABLED
-//#define HAL_SMARTCARD_MODULE_ENABLED
-//#define HAL_SMBUS_MODULE_ENABLED
-//#define HAL_SPI_MODULE_ENABLED
-//#define HAL_TIM_MODULE_ENABLED
-//#define HAL_TSC_MODULE_ENABLED
-//#define HAL_UART_MODULE_ENABLED
-//#define HAL_USART_MODULE_ENABLED
-//#define HAL_WWDG_MODULE_ENABLED
+/* #define HAL_RTC_MODULE_ENABLED */
+/* #define HAL_SMARTCARD_MODULE_ENABLED */
+/* #define HAL_SMBUS_MODULE_ENABLED */
+/* #define HAL_SPI_MODULE_ENABLED */
+/* #define HAL_TIM_MODULE_ENABLED */
+/* #define HAL_TSC_MODULE_ENABLED */
+/* #define HAL_UART_MODULE_ENABLED */
+/* #define HAL_USART_MODULE_ENABLED */
+/* #define HAL_WWDG_MODULE_ENABLED */
 
 /* ######################### Oscillator Values adaptation ################### */
 /**
@@ -93,7 +93,7 @@
   *        Timeout value 
   */
 #if !defined  (HSE_STARTUP_TIMEOUT)
-  #define HSE_STARTUP_TIMEOUT    ((uint32_t)5000)   /*!< Time out for HSE start up, in ms */
+  #define HSE_STARTUP_TIMEOUT    ((uint32_t)100)   /*!< Time out for HSE start up, in ms */
 #endif /* HSE_STARTUP_TIMEOUT */
 
 /**
