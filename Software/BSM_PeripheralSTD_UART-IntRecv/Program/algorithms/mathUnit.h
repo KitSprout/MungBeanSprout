@@ -1,15 +1,22 @@
-/* #include "beanSproutM_bsp.h" */
+/* #include "algorithms\mathUnit.h" */
 
-#ifndef __BEANSPROUTM_BSP_H
-#define __BEANSPROUTM_BSP_H
+#ifndef __MATHUNIT_H
+#define __MATHUNIT_H
 
-#include "drivers\stm32f0_system.h"
+#include "stm32f0xx.h"
+#include "arm_math.h"
 /*====================================================================================================*/
 /*====================================================================================================*/
-extern pFunc UART1_irqEven;
+#define invSqrtf( iSq )   (1.0f / sqrtf((float)(iSq)))
+#define squa( Sq )        (((float)Sq) * ((float)(Sq)))
+#define toRad( _mathD )   ((_mathD) * 0.0174532925f)
+#define toDeg( _mathR )   ((_mathR) * 57.2957795f)
 
-void BSM_GPIO_Config( void );
-void BSM_UART_Config( pFunc pUARTx );
+typedef struct {
+  float pitch;
+  float roll;
+  float yaw;
+} eulerAngle_t;
 /*====================================================================================================*/
 /*====================================================================================================*/
 #endif
