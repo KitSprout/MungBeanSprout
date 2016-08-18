@@ -3,6 +3,7 @@
 #include "drivers\stm32f0_system.h"
 /*====================================================================================================*/
 /*====================================================================================================*/
+#define PLL_SOURCE_HSE
 /*
 System Clock source            = PLL (HSE)
 SYSCLK(Hz)                     = 48000000
@@ -14,17 +15,40 @@ PREDIV                         = 2
 PLLMUL                         = 12
 Flash Latency(WS)              = 1
 */
+
+/*#define PLL_SOURCE_HSI*/
+/*
+System Clock source            = PLL (HSI/2)
+SYSCLK(Hz)                     = 48000000
+HCLK(Hz)                       = 48000000
+AHB Prescaler                  = 1
+APB1 Prescaler                 = 1
+HSE Frequency(Hz)              = 8000000
+PREDIV                         = 1
+PLLMUL                         = 12
+Flash Latency(WS)              = 1
+*/
+
 void HAL_MspInit( void )
 {
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
   RCC_OscInitTypeDef RCC_OscInitStruct;
   HAL_StatusTypeDef state = HAL_OK;
 
+#if defined(PLL_SOURCE_HSE)
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState       = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState   = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource  = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PREDIV     = RCC_PREDIV_DIV2;
+#elif defined(PLL_SOURCE_HSI)
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_NONE;
+  RCC_OscInitStruct.PLL.PLLState   = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource  = RCC_PLLSOURCE_HSI;
+  RCC_OscInitStruct.PLL.PREDIV     = RCC_PREDIV_DIV1;
+#else
+  #error "Please define SYSTEM_CLOCK_SOURCE."
+#endif
   RCC_OscInitStruct.PLL.PLLMUL     = RCC_PLL_MUL12;
   state = HAL_RCC_OscConfig(&RCC_OscInitStruct);
   if(state != HAL_OK)
