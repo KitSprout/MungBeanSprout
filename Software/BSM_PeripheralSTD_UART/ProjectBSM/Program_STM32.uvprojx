@@ -10,7 +10,7 @@
       <TargetName>STM32F030F</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060183::V5.06 update 2 (build 183)::ARMCC</pCCUsed>
+      <pCCUsed>5060300::V5.06 update 3 (build 300)::ARMCC</pCCUsed>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32F030F4</Device>
@@ -324,17 +324,17 @@
             <uSurpInc>0</uSurpInc>
             <uC99>1</uC99>
             <useXO>0</useXO>
-            <v6Lang>0</v6Lang>
-            <v6LangP>0</v6LangP>
+            <v6Lang>3</v6Lang>
+            <v6LangP>1</v6LangP>
             <vShortEn>0</vShortEn>
             <vShortWch>0</vShortWch>
             <v6Lto>0</v6Lto>
             <v6WtE>0</v6WtE>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_STDPERIPH_DRIVER,STM32F0XX, ARM_MATH</Define>
+              <Define>USE_STDPERIPH_DRIVER, STM32F030X6, ARM_MATH_CM0</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Libraries\CMSIS\Device;..\Libraries\CMSIS\Include;..\Libraries\STM32F0xx_StdPeriph_Driver\inc;..\Libraries\STM32F0xx_StdPeriph_Driver\src;..\Program;..\</IncludePath>
+              <IncludePath>..\Libraries\CMSIS\Device;..\Libraries\CMSIS\Include;..\Libraries\STM32F0xx_StdPeriph_Driver\inc;..\Program;..\</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -347,6 +347,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
+            <uClangAs>0</uClangAs>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -463,9 +464,9 @@
           <GroupName>Module</GroupName>
           <Files>
             <File>
-              <FileName>module_serial.c</FileName>
+              <FileName>serial.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Program\modules\module_serial.c</FilePath>
+              <FilePath>..\Program\modules\serial.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -473,9 +474,9 @@
           <GroupName>Algorithm</GroupName>
           <Files>
             <File>
-              <FileName>algorithm_string.c</FileName>
+              <FileName>string.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Program\algorithms\algorithm_string.c</FilePath>
+              <FilePath>..\Program\algorithms\string.c</FilePath>
             </File>
           </Files>
         </Group>

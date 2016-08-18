@@ -2,32 +2,31 @@
 /*====================================================================================================*/
 #include "drivers\stm32f0_system.h"
 #include "drivers\stm32f0_usart.h"
-#include "algorithms\algorithm_string.h"
-
-#include "module_serial.h"
+#include "modules\serial.h"
+#include "algorithms\string.h"
 /*====================================================================================================*/
 /*====================================================================================================*/
-#define UARTx                       USART1
-#define UARTx_CLK_ENABLE()          RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE)
-#define UARTx_IRQ                   USART1_IRQn
+#define UARTx                 USART1
+#define UARTx_CLK_ENABLE()    RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE)
+#define UARTx_IRQ             USART1_IRQn
 
-#define UARTx_TX_PIN                GPIO_Pin_9
-#define UARTx_TX_GPIO_PORT          GPIOA
-#define UARTx_TX_GPIO_CLK           RCC_AHBPeriph_GPIOA
-#define UARTx_TX_SOURCE             GPIO_PinSource9
-#define UARTx_TX_AF                 GPIO_AF_1
+#define UARTx_TX_PIN          GPIO_Pin_9
+#define UARTx_TX_GPIO_PORT    GPIOA
+#define UARTx_TX_GPIO_CLK     RCC_AHBPeriph_GPIOA
+#define UARTx_TX_SOURCE       GPIO_PinSource9
+#define UARTx_TX_AF           GPIO_AF_1
 
-#define UARTx_RX_PIN                GPIO_Pin_10
-#define UARTx_RX_GPIO_PORT          GPIOA
-#define UARTx_RX_GPIO_CLK           RCC_AHBPeriph_GPIOA
-#define UARTx_RX_SOURCE             GPIO_PinSource10
-#define UARTx_RX_AF                 GPIO_AF_1
+#define UARTx_RX_PIN          GPIO_Pin_10
+#define UARTx_RX_GPIO_PORT    GPIOA
+#define UARTx_RX_GPIO_CLK     RCC_AHBPeriph_GPIOA
+#define UARTx_RX_SOURCE       GPIO_PinSource10
+#define UARTx_RX_AF           GPIO_AF_1
 
-#define UARTx_BAUDRATE              115200
-#define UARTx_BYTESIZE              USART_WordLength_8b
-#define UARTx_STOPBITS              USART_StopBits_1
-#define UARTx_PARITY                USART_Parity_No
-#define UARTx_HARDWARECTRL          USART_HardwareFlowControl_None
+#define UARTx_BAUDRATE        115200
+#define UARTx_BYTESIZE        USART_WordLength_8b
+#define UARTx_STOPBITS        USART_StopBits_1
+#define UARTx_PARITY          USART_Parity_No
+#define UARTx_HARDWARECTRL    USART_HardwareFlowControl_None
 /*====================================================================================================*/
 /*====================================================================================================*
 **函數 : Serial_Config

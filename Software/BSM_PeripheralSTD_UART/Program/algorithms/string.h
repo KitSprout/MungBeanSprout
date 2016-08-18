@@ -1,7 +1,7 @@
-/* #include "algorithm_string.h" */
+/* #include "algorithms\string.h" */
 
-#ifndef __ALGORITHM_STRING_H
-#define __ALGORITHM_STRING_H
+#ifndef __STRING_H
+#define __STRING_H
 
 #include "stm32f0xx.h"
 /*====================================================================================================*/

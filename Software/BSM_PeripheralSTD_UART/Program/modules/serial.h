@@ -1,12 +1,12 @@
-/* #include "module_serial.h" */
+/* #include "modules\serial.h" */
 
-#ifndef __MODULE_SERIAL_H
-#define __MODULE_SERIAL_H
+#ifndef __SERIAL_H
+#define __SERIAL_H
 
 #include <stdio.h>
 
 #include "stm32f0xx.h"
-#include "algorithms\algorithm_string.h"
+#include "algorithms\string.h"
 /*====================================================================================================*/
 /*====================================================================================================*/
 void    Serial_Config( void );

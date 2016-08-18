@@ -29,7 +29,7 @@
       <CLKADS>8000000</CLKADS>
       <OPTTT>
         <gFlags>1</gFlags>
-        <BeepAtEnd>1</BeepAtEnd>
+        <BeepAtEnd>0</BeepAtEnd>
         <RunSim>0</RunSim>
         <RunTarget>1</RunTarget>
         <RunAbUc>0</RunAbUc>
@@ -412,8 +412,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Program\modules\module_serial.c</PathWithFileName>
-      <FilenameWithoutPath>module_serial.c</FilenameWithoutPath>
+      <PathWithFileName>..\Program\modules\serial.c</PathWithFileName>
+      <FilenameWithoutPath>serial.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -432,8 +432,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Program\algorithms\algorithm_string.c</PathWithFileName>
-      <FilenameWithoutPath>algorithm_string.c</FilenameWithoutPath>
+      <PathWithFileName>..\Program\algorithms\string.c</PathWithFileName>
+      <FilenameWithoutPath>string.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
